@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Redacao.Application\Redacao.Application.csproj" />
+    <ProjectReference Include="..\Redacao.Domain\Redacao.Domain.csproj" />
+    <ProjectReference Include="..\Redacao.Usuario.Data\Redacao.Usuario.Data.csproj" />
+    <ProjectReference Include="..\Redacao.Usuario.Domain\Redacao.Usuario.Domain.csproj" />
+    <ProjectReference Include="..\RedacaoData\Redacao.Data.csproj" />
+    <ProjectReference Include="..\src\Redacao.Usuario.Application\Redacao.Usuario.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="InputModels\" />
+  </ItemGroup>
+
+</Project>
