@@ -37,6 +37,7 @@ namespace Redacao.Usuario.Data
             modelBuilder.ApplyConfiguration(new AtividadeMapping());
             modelBuilder.ApplyConfiguration(new ComoConheceuMapping());
             modelBuilder.ApplyConfiguration(new TipoUsuarioMapping());
+            modelBuilder.ApplyConfiguration(new UsuarioMapping());
 
         }
 

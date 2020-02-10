@@ -38,7 +38,6 @@ namespace Redacao.Usuario.Data.Mapping
                 .WithOne(a => a.Usuario)
                 .HasForeignKey(f => f.UsuarioId);
 
-                
         }
     }
 }

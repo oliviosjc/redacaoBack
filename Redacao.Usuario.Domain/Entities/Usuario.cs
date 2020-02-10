@@ -11,6 +11,9 @@ namespace Redacao.Usuario.Domain.Entities
         {
 
         }
+
+        public bool Ativo { get; private set; }
+
         public string Nome { get; private set; }
 
         public string Email { get; private set; }
@@ -46,6 +49,10 @@ namespace Redacao.Usuario.Domain.Entities
 
             Validar();
         }
+
+        public void Desativar() => Ativo = false;
+
+        public void Ativar() => Ativo = true;
 
         public void AlterarNome(string nome)
         {

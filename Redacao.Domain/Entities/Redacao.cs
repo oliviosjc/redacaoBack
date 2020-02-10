@@ -27,6 +27,8 @@ namespace Redacao.Domain.Entities
 
         public Guid UsuarioAlunoId { get; private set; }
 
+        public Guid? UsuarioProfessorId { get; private set; }
+
         public bool Ativo { get; private set; }
 
         public Redacao(string descricao, Guid tipoRedacaoId, Guid temaRedacaoId, Guid statusRedacaoId, Guid documentoId, Guid usuarioAlunoId, bool ativo)
@@ -78,6 +80,12 @@ namespace Redacao.Domain.Entities
         {
             Validacoes.ValidarSeNulo(usuarioAlunoId, "O campo de usuarioAluno não pode ser alterado para nulo.");
             UsuarioAlunoId = usuarioAlunoId;
+        }
+
+        public void AlterarProfessor(Guid usuarioProfessorId)
+        {
+            Validacoes.ValidarSeNulo(usuarioProfessorId, "Você está setando um professor com id nulo.");
+            UsuarioProfessorId = usuarioProfessorId;
         }
 
         public void Validar()

@@ -11,10 +11,11 @@ using System.Text;
 
 namespace Redacao.Data.Repository
 {
-    public class RedacaoRepository : IRedacaoRepository
+    public class RedacaoRepository : IRedacaoRepository, IDisposable
     {
 
         private readonly RedacaoContext _context;
+
 
         public RedacaoRepository(RedacaoContext context)
         {
