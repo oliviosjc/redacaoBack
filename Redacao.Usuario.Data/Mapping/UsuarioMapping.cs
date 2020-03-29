@@ -25,11 +25,6 @@ namespace Redacao.Usuario.Data.Mapping
 
             builder.Property(u => u.Genero).HasMaxLength(30);
 
-            builder.HasOne(u => u.TipoUsuario)
-                .WithMany(tu => tu.Usuarios)
-                .HasForeignKey(f => f.TipoUsuarioId)
-                .IsRequired();
-
             builder.HasOne(u => u.ComoConheceu)
                 .WithMany(cc => cc.Usuarios)
                 .HasForeignKey(f => f.ComoConheceuId);
@@ -38,6 +33,9 @@ namespace Redacao.Usuario.Data.Mapping
                 .WithOne(a => a.Usuario)
                 .HasForeignKey(f => f.UsuarioId);
 
+			builder.HasIndex(u => u.AspNetUserId);
+
+			builder.HasIndex(u => u.Email).IsUnique();
         }
     }
 }

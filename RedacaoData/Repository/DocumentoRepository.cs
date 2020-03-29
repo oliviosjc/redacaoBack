@@ -18,11 +18,11 @@ namespace Redacao.Data.Repository
             _context = context;
         }
 
-        public IUnitOfWork UnitOfWork => _context;
-
         public Documento Adicionar(Documento documento)
         {
             var novoDocumento = _context.Documento.Add(documento).Entity;
+			_context.SaveChanges();
+			_context.Dispose();
             return novoDocumento;
         }
 

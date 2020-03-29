@@ -1,4 +1,5 @@
 ﻿using Redacao.Application.ViewModel;
+using Redacao.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,18 +8,18 @@ namespace Redacao.Application.Services.Interfaces
 {
     public interface IRedacaoService
     {
-        IEnumerable<RedacaoViewModel> RedacoesPorUsuario(Guid usuarioId);
+        ReturnRequestViewModel RedacoesPorUsuario(Guid usuarioId);
 
-        RedacaoViewModel DetalhesRedacao(Guid redacaoId);
+		ReturnRequestViewModel DetalhesRedacao(Guid redacaoId);
 
-        void AdicionarRedacao(RedacaoViewModel redacao);
+		ReturnRequestViewModel AdicionarRedacao(RedacaoViewModel redacao);
 
-        void AtualizarRedacao(RedacaoViewModel redacao);
+		ReturnRequestViewModel AtualizarRedacao(RedacaoViewModel redacao);
 
-        IEnumerable<TipoRedacaoViewModel> ObterTiposRedacao();
+        ReturnRequestViewModel ObterTiposRedacao();
 
-        IEnumerable<TemaRedacaoViewModel> ObterTemasRedacao();
+		ReturnRequestViewModel ObterTemasRedacao();
 
-
+		ReturnRequestViewModel AtualizarRedacaoProfessor(Guid redacaoId, Guid professorId);
     }
 }

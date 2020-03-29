@@ -8,11 +8,11 @@ namespace Redacao.Domain.Enums
     {
         public class StatusRedacaoEnum
         {
-            public static Guid INICIADA = new Guid("F1D014F9-8A5F-4CC8-899B-61E117685B7B");
+            public static Guid INICIADA = new Guid("519A585F-7C69-4E21-A18D-840CCDB197D1");
 
-            public static Guid EM_ANALISE = new Guid("1108543E-B581-4302-9BA0-EABB4AC61183");
+            public static Guid EM_ANALISE = new Guid("E25091EA-BEF3-4705-9CB4-EA869C6C5523");
 
-            public static Guid FINALIZADA = new Guid("3516919F-6B2D-4668-8838-51E7ED106866");
+            public static Guid FINALIZADA = new Guid("7CDF8A2F-DB5E-4435-ACB9-BB4E2714FE00");
         }
     }
 }

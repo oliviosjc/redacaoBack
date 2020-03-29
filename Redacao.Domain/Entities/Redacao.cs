@@ -31,6 +31,8 @@ namespace Redacao.Domain.Entities
 
         public bool Ativo { get; private set; }
 
+		public string Teste { get; set; }
+
         public Redacao(string descricao, Guid tipoRedacaoId, Guid temaRedacaoId, Guid statusRedacaoId, Guid documentoId, Guid usuarioAlunoId, bool ativo)
         {
             Descricao = descricao;

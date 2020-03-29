@@ -28,9 +28,13 @@ namespace Redacao.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(10);
 
-                    b.Property<string>("File");
+                    b.Property<string>("File")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
-                    b.Property<string>("Folder");
+                    b.Property<string>("Folder")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -63,6 +67,8 @@ namespace Redacao.Data.Migrations
 
                     b.Property<Guid>("UsuarioAlunoId");
 
+                    b.Property<Guid?>("UsuarioProfessorId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DocumentoId")
@@ -75,6 +81,8 @@ namespace Redacao.Data.Migrations
                     b.HasIndex("TipoRedacaoId");
 
                     b.HasIndex("UsuarioAlunoId");
+
+                    b.HasIndex("UsuarioProfessorId");
 
                     b.ToTable("Redacao");
                 });

@@ -30,6 +30,8 @@ namespace Redacao.Application.ViewModel
 
         public Guid UsuarioAlunoId { get; set; }
 
+		public Guid UsuarioProfessorId { get; set; }
+
         public bool Ativo { get; set; }
     }
 }

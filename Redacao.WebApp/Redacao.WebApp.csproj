@@ -5,24 +5,33 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\consultor5a.olivio\OneDrive - Webmotors S.A\Documentos\ProjetosOlivio\redacaoBack\Redacao.WebApp\Redacao.WebApp.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.0.0" />
+    <PackageReference Include="System.Net.Http.Formatting.Extension" Version="5.2.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Redacao.Application\Redacao.Application.csproj" />
     <ProjectReference Include="..\Redacao.Domain\Redacao.Domain.csproj" />
+    <ProjectReference Include="..\Redacao.Log.Application\Redacao.Log.Application.csproj" />
+    <ProjectReference Include="..\Redacao.Log.Data\Redacao.Log.Data.csproj" />
+    <ProjectReference Include="..\Redacao.Log.Domain\Redacao.Log.Domain.csproj" />
     <ProjectReference Include="..\Redacao.Usuario.Data\Redacao.Usuario.Data.csproj" />
     <ProjectReference Include="..\Redacao.Usuario.Domain\Redacao.Usuario.Domain.csproj" />
     <ProjectReference Include="..\RedacaoData\Redacao.Data.csproj" />
+    <ProjectReference Include="..\src\Redacao.Auth.Application\Redacao.Auth.Application.csproj" />
+    <ProjectReference Include="..\src\Redacao.Auth\Redacao.Auth.Data.csproj" />
+    <ProjectReference Include="..\src\Redacao.Avaliacao.Application\Redacao.Avaliacao.Application.csproj" />
+    <ProjectReference Include="..\src\Redacao.Avaliacao.Data\Redacao.Avaliacao.Data.csproj" />
+    <ProjectReference Include="..\src\Redacao.Avaliacao.Domain\Redacao.Avaliacao.Domain.csproj" />
     <ProjectReference Include="..\src\Redacao.Usuario.Application\Redacao.Usuario.Application.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="InputModels\" />
   </ItemGroup>
 
 </Project>

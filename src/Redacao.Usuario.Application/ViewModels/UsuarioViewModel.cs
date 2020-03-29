@@ -34,5 +34,7 @@ namespace Redacao.Usuario.Application.ViewModels
         public ComoConheceuViewModel ComoConheceu { get; set; }
 
         public ICollection<AtividadesViewModel> Atividades { get; set; }
+
+		public Guid AspNetUserId { get; set; }
     }
 }

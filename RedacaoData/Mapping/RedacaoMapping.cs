@@ -36,6 +36,8 @@ namespace Redacao.Data.Mapping
             builder.HasIndex(r => r.UsuarioAlunoId);
 
             builder.Property(r => r.Ativo).IsRequired();
+
+			builder.HasIndex(r => r.UsuarioProfessorId);
         }
     }
 }

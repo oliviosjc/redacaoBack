@@ -13,6 +13,8 @@ namespace Redacao.Domain.Repository.Interface
 
         void Atualizar(Domain.Entities.Redacao redacao);
 
+		void Deletar();
+
         ICollection<Domain.Entities.Redacao>RedacoesPorUsuario(Guid usuarioId);
 
         Domain.Entities.Redacao DetalhesRedacao(Guid redacaoId);

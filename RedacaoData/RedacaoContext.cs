@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RedacaoData
 {
-    public class RedacaoContext : DbContext , IUnitOfWork
+    public class RedacaoContext : DbContext
     {
         private IConfiguration _configuration;
 

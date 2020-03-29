@@ -52,48 +52,72 @@ namespace Redacao.Usuario.Data.Migrations
                     b.ToTable("ComoConheceu");
                 });
 
-            modelBuilder.Entity("Redacao.Usuario.Domain.Entities.TipoUsuario", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TipoUsuario");
-                });
-
             modelBuilder.Entity("Redacao.Usuario.Domain.Entities.Usuario", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CPF");
+                    b.Property<Guid>("AspNetUserId");
+
+                    b.Property<bool>("Ativo");
+
+                    b.Property<string>("CPF")
+                        .HasMaxLength(11);
 
                     b.Property<Guid>("ComoConheceuId");
 
                     b.Property<DateTime?>("DataNascimento");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
-                    b.Property<string>("Genero");
+                    b.Property<string>("Genero")
+                        .HasMaxLength(30);
 
-                    b.Property<string>("Nome");
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
-                    b.Property<string>("Telefone");
-
-                    b.Property<Guid>("TipoUsuarioId");
+                    b.Property<string>("Telefone")
+                        .IsRequired()
+                        .HasMaxLength(11);
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AspNetUserId");
+
+                    b.HasIndex("CPF");
+
                     b.HasIndex("ComoConheceuId");
 
-                    b.HasIndex("TipoUsuarioId");
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Usuario");
+                });
+
+            modelBuilder.Entity("Redacao.Usuario.Domain.Entities.UsuarioCredito", b =>
+                {
+                    b.Property<Guid>("UsuarioId");
+
+                    b.Property<DateTime?>("DataExpiracaoPlano");
+
+                    b.Property<int>("QuantidadePerguntasAvulsas");
+
+                    b.Property<int>("QuantidadePerguntasPlano");
+
+                    b.Property<int>("QuantidadeRedacoesAvulsas");
+
+                    b.Property<int>("QuantidadeRedacoesPlano");
+
+                    b.Property<decimal>("Saldo");
+
+                    b.HasKey("UsuarioId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("UsuarioCredito");
                 });
 
             modelBuilder.Entity("Redacao.Usuario.Domain.Entities.Atividade", b =>
@@ -110,10 +134,13 @@ namespace Redacao.Usuario.Data.Migrations
                         .WithMany("Usuarios")
                         .HasForeignKey("ComoConheceuId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
 
-                    b.HasOne("Redacao.Usuario.Domain.Entities.TipoUsuario", "TipoUsuario")
-                        .WithMany("Usuarios")
-                        .HasForeignKey("TipoUsuarioId")
+            modelBuilder.Entity("Redacao.Usuario.Domain.Entities.UsuarioCredito", b =>
+                {
+                    b.HasOne("Redacao.Usuario.Domain.Entities.Usuario", "Usuario")
+                        .WithOne("UsuarioCredito")
+                        .HasForeignKey("Redacao.Usuario.Domain.Entities.UsuarioCredito", "UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

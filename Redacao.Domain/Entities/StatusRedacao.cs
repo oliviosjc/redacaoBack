@@ -7,6 +7,10 @@ namespace Redacao.Domain.Entities
 {
     public class StatusRedacao : Entity
     {
+		public StatusRedacao()
+		{
+				
+		}
         public string Nome { get; private set; }
 
         public ICollection<Redacao> Redacoes { get; private set; }

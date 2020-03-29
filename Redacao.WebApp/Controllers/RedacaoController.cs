@@ -2,107 +2,142 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Redacao.Application.Services.Interfaces;
 using Redacao.Application.ViewModel;
+using Redacao.Core.DomainObjects;
+using Redacao.Usuario.Application.Services.Interfaces;
 
 namespace Redacao.WebApp.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RedacaoController : ControllerBase
-    {
+	[Route("api/[controller]")]
+	[ApiController]
+	public class RedacaoController : BaseController
+	{
 
-        private readonly IRedacaoService _redacaoService;
+		private readonly IRedacaoService _redacaoService;
+		private readonly IUsuarioService _usuarioService;
 
-        public RedacaoController(IRedacaoService redacaoService)
-        {
-            _redacaoService = redacaoService;
-        }
+		public RedacaoController(IRedacaoService redacaoService, IUsuarioService usuarioService)
+		{
+			_redacaoService = redacaoService;
+			_usuarioService = usuarioService;
+		}
 
-        [HttpGet, Route("redacoesPorUsuario/{usuarioId}")]
-        public ActionResult ObterRedacoesPorUsuario(Guid usuarioId)
-        {
-            try
-            {
-                var redacoes = _redacaoService.RedacoesPorUsuario(usuarioId);
-                return Ok(redacoes);
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
+		[HttpGet, Route("minhas-redacoes")]
+		[Authorize(Roles = "ALUNO")]
+		public ActionResult ObterMinhasRedacoes()
+		{
+			try
+			{
+				var userId = new Guid(this.User.Claims.ToList().FirstOrDefault(f => f.Type == "userId").Value);
+				var usuario = _usuarioService.DetalhesUsuario(userId);
+				var redacoes = _redacaoService.RedacoesPorUsuario(usuario.Data.Id);
+				return RetornoAPI(redacoes);
 
-        [HttpGet, Route("detalhesRedacao/{id}")]
-        public ActionResult ObterDetalhesDaRedacao(Guid id)
-        {
-            try
-            {
-                var redacao = _redacaoService.DetalhesRedacao(id);
-                return Ok(redacao);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+			}
+			catch (Exception ex)
+			{
+				return RetornoAPIException(ex);
+			}
+		}
 
-        [HttpPost, Route("novaRedacao")]
-        public ActionResult AdicionarRedacao(RedacaoViewModel model)
-        {
-            try
-            {
-                _redacaoService.AdicionarRedacao(model);
-                return Ok();
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+		[HttpGet, Route("{id}")]
+		[Authorize(Roles = "ALUNO, ADMIN")]
+		public ActionResult ObterDetalhesDaRedacao(Guid id)
+		{
+			try
+			{
+				var redacao = _redacaoService.DetalhesRedacao(id);
+				return RetornoAPI(redacao);
+			}
+			catch (Exception ex)
+			{
+				return RetornoAPIException(ex);
+			}
+		}
 
-        [HttpPut, Route("editarRedacao")]
-        public ActionResult AtualizarRedacao(RedacaoViewModel model)
-        {
-            try
-            {
-                _redacaoService.AtualizarRedacao(model);
-                return Ok();
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+		[HttpPost]
+		[Authorize(Roles = "ALUNO, ADMIN")]
+		public ActionResult AdicionarRedacao(RedacaoViewModel model)
+		{
+			try
+			{
+				var userId = new Guid(this.User.Claims.ToList().FirstOrDefault(f => f.Type == "userId").Value);
+				var usuario = _usuarioService.DetalhesUsuario(userId);
+				model.UsuarioAlunoId = usuario.Data.Id;
+				var retorno = _redacaoService.AdicionarRedacao(model);
+				return RetornoAPI(retorno);
+			}
+			catch (Exception ex)
+			{
+				return RetornoAPIException(ex);
+			}
+		}
 
-        [HttpGet, Route("tiposRedacao")]
-        public ActionResult ObterTiposRedacao()
+		[HttpPut, Route("editarRedacao")]
+		[Authorize(Roles = "ALUNO, ADMIN")]
+		public ActionResult AtualizarRedacao(RedacaoViewModel model)
+		{
+			try
+			{
+				var retorno = _redacaoService.AtualizarRedacao(model);
+				return RetornoAPI(retorno);
+			}
+			catch (Exception ex)
+			{
+				return RetornoAPIException(ex);
+			}
+		}
+
+		[HttpPost, Route("atualizar-redacao-professor/{redacaoId}")]
+		[Authorize(Roles = "ALUNO, ADMIN")]
+		public ActionResult AtualizarRedacaoProfessor(Guid redacaoId)
+		{
+			try
+			{
+				var userId = new Guid(this.User.Claims.ToList().FirstOrDefault(f => f.Type == "userId").Value);
+				var usuario = _usuarioService.DetalhesUsuario(userId);
+				var retorno = _redacaoService.AtualizarRedacaoProfessor(redacaoId, usuario.Data.Id);
+				return RetornoAPI(retorno);
+			}
+			catch (Exception ex)
+			{
+				return RetornoAPIException(ex);
+			}
+		}
+
+
+		[HttpGet, Route("tipos-redacao")]
+		[Authorize(Roles = "ALUNO, ADMIN")]
+		public ActionResult ObterTiposRedacao()
         {
             try
             {
                 var tipos = _redacaoService.ObterTiposRedacao();
-                return Ok(tipos);
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
+				return RetornoAPI(tipos);
+			}
+			catch (Exception ex)
+			{
+				return RetornoAPIException(ex);
+			}
+		}
 
-        [HttpGet, Route("temasRedacao")]
-        public ActionResult ObterTemasRedacao()
+        [HttpGet, Route("temas-redacao")]
+		[Authorize(Roles = "ALUNO, ADMIN")]
+		public ActionResult ObterTemasRedacao()
         {
             try
             {
                 var temas = _redacaoService.ObterTemasRedacao();
-                return Ok(temas);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+				return RetornoAPI(temas);
+			}
+			catch (Exception ex)
+			{
+				return RetornoAPIException(ex);
+			}
+		}
     }
 }

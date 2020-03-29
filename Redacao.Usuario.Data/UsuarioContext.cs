@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Redacao.Core.Data;
 using Redacao.Usuario.Data.Mapping;
 using Redacao.Usuario.Domain.Entities;
 using System;
@@ -36,14 +37,14 @@ namespace Redacao.Usuario.Data
 
             modelBuilder.ApplyConfiguration(new AtividadeMapping());
             modelBuilder.ApplyConfiguration(new ComoConheceuMapping());
-            modelBuilder.ApplyConfiguration(new TipoUsuarioMapping());
             modelBuilder.ApplyConfiguration(new UsuarioMapping());
+			modelBuilder.ApplyConfiguration(new UsuarioCreditoMapping());
 
         }
 
-        public virtual DbSet<Atividade> Atividade { get; set; }
+		public virtual DbSet<Atividade> Atividade { get; set; }
         public virtual DbSet<ComoConheceu> ComoConheceu { get; set; }
-        public virtual DbSet<TipoUsuario> TipoUsuario { get; set; }
         public virtual DbSet<Domain.Entities.Usuario> Usuario { get; set; }
+		public virtual DbSet<UsuarioCredito> UsuarioCredito { get; set; }
     }
 }

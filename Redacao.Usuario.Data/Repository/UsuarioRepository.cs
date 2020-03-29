@@ -5,8 +5,10 @@ using Redacao.Usuario.Domain.Entities;
 using Redacao.Usuario.Domain.Repository;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Redacao.Usuario.Data.Repository
 {
@@ -20,17 +22,14 @@ namespace Redacao.Usuario.Data.Repository
             _context = context;
         }
 
-        public IUnitOfWork UnitOfWork => throw new NotImplementedException();
-
-        public void Adicionar(Domain.Entities.Usuario usuario)
+		public void Registrar(Domain.Entities.Usuario usuario)
         {
             try
             {
                 _context.Usuario.Add(usuario);
-                _context.SaveChanges();
-                Dispose();
+				_context.SaveChanges();
             }
-            catch(Exception)
+            catch(Exception ex)
             {
                 throw new EntityException("Ocorreu um erro ao salvar o Usuário na base de dados.");
             }
@@ -47,7 +46,7 @@ namespace Redacao.Usuario.Data.Repository
             }
             catch (Exception)
             {
-                throw new EntityException("Ocorreu um erro ao atualizar o  Usuário na base de dados.");
+                throw new EntityException("Ocorreu um erro ao atualizar o Usuário na base de dados.");
             }
         }
 
@@ -67,20 +66,19 @@ namespace Redacao.Usuario.Data.Repository
             }
         }
 
-        public Domain.Entities.Usuario DetalhesUsuario(Guid usuarioId)
+        public Domain.Entities.Usuario DetalhesUsuario(Guid aspNetUserId)
         {
             try
             {
                 var usuario = _context.Usuario.AsNoTracking()
                                         .Include(i => i.Atividades)
-                                        .Include(i => i.TipoUsuario)
                                         .Include(i => i.ComoConheceu)
-                                        .Where(wh => wh.Id == usuarioId)
+                                        .Where(wh => wh.AspNetUserId == aspNetUserId)
                                         .FirstOrDefault();
 
                 return usuario;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw new EntityException("Ocorreu um erro ao listar os detalhes do usuário na base de dados.");
             }
@@ -97,16 +95,31 @@ namespace Redacao.Usuario.Data.Repository
             try
             {
                 var usuarios = _context.Usuario.AsNoTracking()
-                                            .Include(i => i.TipoUsuario)
                                             .Include(i => i.ComoConheceu)
                                             .ToList();
 
                 return usuarios;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw new EntityException("Ocorreu um erro ao listar os usuários na base de dados.");
             }
         }
-    }
+
+		public bool ValidarEmail(string email)
+		{
+			var emailExiste = _context.Usuario.Select(sl => new { sl.Email }).Where(wh => wh.Email == email).FirstOrDefault();
+
+			if (emailExiste != null)
+				return true;
+
+			return false;
+		}
+
+		public Domain.Entities.Usuario DetalhesUsuarioById(Guid usuarioId)
+		{
+			var usuario = _context.Usuario.AsNoTracking().Where(wh => wh.Id == usuarioId).FirstOrDefault();
+			return usuario;
+		}
+	}
 }

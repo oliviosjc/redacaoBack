@@ -22,7 +22,6 @@ namespace Redacao.Application.Services
         {
             var documento = new Documento(documentoVM.File, documentoVM.Name, documentoVM.Extension, documentoVM.Size, documentoVM.Folder);
             var novoDocumento = _documentoRepository.Adicionar(documento);
-            _documentoRepository.UnitOfWork.Commit();
             return novoDocumento;
 
         }
@@ -32,7 +31,6 @@ namespace Redacao.Application.Services
             var documento = new Documento(documentoVM.File, documentoVM.Name, documentoVM.Extension, documentoVM.Size, documentoVM.Folder);
             documento.AlterarDocumento(documentoVM.Id);
             _documentoRepository.Atualizar(documento);
-            _documentoRepository.UnitOfWork.Commit();
         }
     }
 }

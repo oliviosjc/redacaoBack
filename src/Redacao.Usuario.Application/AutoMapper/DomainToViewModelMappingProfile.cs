@@ -14,7 +14,7 @@ namespace Redacao.Usuario.Application.AutoMapper
             CreateMap<Domain.Entities.Usuario, UsuarioViewModel>();
             CreateMap<Atividade, AtividadesViewModel>();
             CreateMap<ComoConheceu, ComoConheceuViewModel>();
-            CreateMap<TipoUsuario, TipoUsuarioViewModel>();
+			CreateMap<UsuarioCredito, UsuarioCreditoViewModel>();
         }
     }
 }
