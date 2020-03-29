@@ -66,14 +66,38 @@ namespace Redacao.Avaliacao.Application.Services
 			return retorno;
 		}
 
-		public ICollection<AvaliacaoRedacaoViewModel> AvaliacaoesRedacoesUsuarioAluno(Guid alunoId)
+		public ReturnRequestViewModel AvaliacaoesRedacoesUsuarioAluno(Guid alunoId)
 		{
-			return _mapper.Map<ICollection<AvaliacaoRedacaoViewModel>>(_repository.AvaliacoesRedacoesAluno(alunoId));
+			var retorno = new ReturnRequestViewModel();
+			var avaliacoes =  _mapper.Map<ICollection<AvaliacaoRedacaoViewModel>>(_repository.AvaliacoesRedacoesAluno(alunoId));
+			if(avaliacoes == null)
+			{
+				retorno.Message = "Não foi encontrada nenhuma avaliação pro usuário.";
+				retorno.HttpCode = HttpStatusCode.NoContent;
+				return retorno;
+			}
+
+			retorno.Message = "Foram encontradas avaliações pro usuário.";
+			retorno.HttpCode = HttpStatusCode.OK;
+			retorno.Data = avaliacoes;
+			return retorno;
 		}
 
-		public AvaliacaoRedacaoViewModel AvaliacaoRedacao(Guid redacaoId)
+		public ReturnRequestViewModel AvaliacaoRedacao(Guid redacaoId)
 		{
-			return _mapper.Map<AvaliacaoRedacaoViewModel>(_repository.AvaliacaoRedacao(redacaoId));
+			var retorno = new ReturnRequestViewModel();
+			var avaliacao = _mapper.Map<AvaliacaoRedacaoViewModel>(_repository.AvaliacaoRedacao(redacaoId));
+			if(avaliacao == null)
+			{
+				retorno.Message = "Não foi encontrada nenhuma avaliação";
+				retorno.HttpCode = HttpStatusCode.NoContent;
+				return retorno;
+			}
+
+			retorno.Message = "Foi encontrada a avaliação";
+			retorno.HttpCode = HttpStatusCode.OK;
+			retorno.Data = avaliacao;
+			return retorno;
 		}
 	}
 }

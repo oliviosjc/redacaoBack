@@ -12,6 +12,6 @@ namespace Redacao.Avaliacao.Application.Services.Interfaces
 
 		ReturnRequestViewModel Atualizar(AvaliacaoProfessorViewModel avaliacaoProfessor);
 
-		ICollection<AvaliacaoProfessorViewModel> AvaliacoesPorProfessor(Guid professorId);
+		ReturnRequestViewModel AvaliacoesPorProfessor(Guid professorId);
 	}
 }

@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Redacao.Application.Services.Interfaces;
 using Redacao.Application.ViewModel;
 using Redacao.Core.DomainObjects;
+using Redacao.Log.Application.Services.Interface;
 using Redacao.Usuario.Application.Services.Interfaces;
 
 namespace Redacao.WebApp.Controllers
@@ -19,11 +21,13 @@ namespace Redacao.WebApp.Controllers
 
 		private readonly IRedacaoService _redacaoService;
 		private readonly IUsuarioService _usuarioService;
+		private readonly IRedacaoLogService _log;
 
-		public RedacaoController(IRedacaoService redacaoService, IUsuarioService usuarioService)
+		public RedacaoController(IRedacaoService redacaoService, IUsuarioService usuarioService, IRedacaoLogService log)
 		{
 			_redacaoService = redacaoService;
 			_usuarioService = usuarioService;
+			_log = log;
 		}
 
 		[HttpGet, Route("minhas-redacoes")]
@@ -32,8 +36,7 @@ namespace Redacao.WebApp.Controllers
 		{
 			try
 			{
-				var userId = new Guid(this.User.Claims.ToList().FirstOrDefault(f => f.Type == "userId").Value);
-				var usuario = _usuarioService.DetalhesUsuario(userId);
+				var usuario = _usuarioService.DetalhesUsuario(GetAspNetUserId());
 				var redacoes = _redacaoService.RedacoesPorUsuario(usuario.Data.Id);
 				return RetornoAPI(redacoes);
 
@@ -65,10 +68,10 @@ namespace Redacao.WebApp.Controllers
 		{
 			try
 			{
-				var userId = new Guid(this.User.Claims.ToList().FirstOrDefault(f => f.Type == "userId").Value);
-				var usuario = _usuarioService.DetalhesUsuario(userId);
+				var usuario = _usuarioService.DetalhesUsuario(GetAspNetUserId());
 				model.UsuarioAlunoId = usuario.Data.Id;
 				var retorno = _redacaoService.AdicionarRedacao(model);
+				_log.Adicionar("SUCESSO", "Redação cadastrada com sucesso.", "AdicionarRedacao", JsonConvert.SerializeObject(model), GetAspNetUserId());
 				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)
@@ -84,6 +87,7 @@ namespace Redacao.WebApp.Controllers
 			try
 			{
 				var retorno = _redacaoService.AtualizarRedacao(model);
+				_log.Adicionar("SUCESSO", "Redação editada com sucesso com sucesso.", "AdicionarRedacao", JsonConvert.SerializeObject(model), GetAspNetUserId());
 				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)
@@ -98,9 +102,9 @@ namespace Redacao.WebApp.Controllers
 		{
 			try
 			{
-				var userId = new Guid(this.User.Claims.ToList().FirstOrDefault(f => f.Type == "userId").Value);
-				var usuario = _usuarioService.DetalhesUsuario(userId);
+				var usuario = _usuarioService.DetalhesUsuario(GetAspNetUserId());
 				var retorno = _redacaoService.AtualizarRedacaoProfessor(redacaoId, usuario.Data.Id);
+				_log.Adicionar("SUCESSO", "Professor vinculado a redação.", "AtualizarRedacaoProfessor", "", GetAspNetUserId());
 				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)

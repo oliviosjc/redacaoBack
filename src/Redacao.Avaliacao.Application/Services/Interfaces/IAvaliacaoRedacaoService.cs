@@ -12,8 +12,8 @@ namespace Redacao.Avaliacao.Application.Services.Interfaces
 
 		ReturnRequestViewModel Atualizar(AvaliacaoRedacaoViewModel model);
 
-		AvaliacaoRedacaoViewModel AvaliacaoRedacao(Guid redacaoId);
+		ReturnRequestViewModel AvaliacaoRedacao(Guid redacaoId);
 
-		ICollection<AvaliacaoRedacaoViewModel> AvaliacaoesRedacoesUsuarioAluno(Guid alunoId);
+		ReturnRequestViewModel AvaliacaoesRedacoesUsuarioAluno(Guid alunoId);
 	}
 }

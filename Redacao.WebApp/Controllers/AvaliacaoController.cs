@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Redacao.Avaliacao.Application.Services.Interfaces;
 using Redacao.Avaliacao.Application.ViewModel;
 using Redacao.Core.DomainObjects;
 using Redacao.Core.Models;
+using Redacao.Log.Application.Services.Interface;
 using Redacao.Usuario.Application.Services.Interfaces;
 
 namespace Redacao.WebApp.Controllers
@@ -22,12 +24,14 @@ namespace Redacao.WebApp.Controllers
 		private readonly IAvaliacaoProfessorService _avaliacaoProfessorService;
 		private readonly IAvaliacaoRedacaoService _avaliacaoRedacaoService;
 		private readonly IUsuarioService _usuarioService;
+		private readonly IRedacaoLogService _log;
 
-		public AvaliacaoController(IAvaliacaoProfessorService avaliacaoProfessorService, IAvaliacaoRedacaoService avaliacaoRedacaoService, IUsuarioService usuarioService)
+		public AvaliacaoController(IAvaliacaoProfessorService avaliacaoProfessorService, IAvaliacaoRedacaoService avaliacaoRedacaoService, IUsuarioService usuarioService, IRedacaoLogService log)
 		{
 			_avaliacaoProfessorService = avaliacaoProfessorService;
 			_avaliacaoRedacaoService = avaliacaoRedacaoService;
 			_usuarioService = usuarioService;
+			_log = log;
 		}
 
 
@@ -38,15 +42,12 @@ namespace Redacao.WebApp.Controllers
 			try
 			{
 				var retorno = _avaliacaoRedacaoService.Adicionar(model);
-				return StatusCode((int)retorno.HttpCode, retorno.Message);
-			}
-			catch (EntityException ex)
-			{
-				return BadRequest(ex.Message);
+				_log.Adicionar("SUCESSO", "Avaliação da Redação feita com sucesso.", "CriarAvaliacaoRedacao", JsonConvert.SerializeObject(model), GetAspNetUserId());
+				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)
 			{
-				return StatusCode(500, ex.Message);
+				return RetornoAPIException(ex);
 			}
 		}
 
@@ -57,34 +58,27 @@ namespace Redacao.WebApp.Controllers
 			try
 			{
 				var retorno = _avaliacaoRedacaoService.Atualizar(model);
-				return StatusCode((int)retorno.HttpCode, retorno.Message);
-			}
-			catch (EntityException ex)
-			{
-				return StatusCode(500, ex.Message);
+				_log.Adicionar("SUCESSO", "Atualização de avaliação da Redação feita com sucesso.", "AtualizarAvaliacaoRedacao", JsonConvert.SerializeObject(model), GetAspNetUserId());
+				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)
 			{
-				return StatusCode(500, ex.Message);
+				return RetornoAPIException(ex);
 			}
 		}
 
 		[HttpGet, Route("redacao/{redacaoId}")]
 		[Authorize(Roles = "ADMIN")]
-		public ActionResult AvaliacaoRedacao(Guid redacaoId)
+		public ActionResult ObterAvaliacaoRedacao(Guid redacaoId)
 		{
 			try
 			{
 				var retorno = _avaliacaoRedacaoService.AvaliacaoRedacao(redacaoId);
-				return Ok(retorno);
-			}
-			catch (EntityException ex)
-			{
-				return StatusCode(500, ex.Message);
+				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)
 			{
-				return StatusCode(500, ex.Message);
+				return RetornoAPIException(ex);
 			}
 		}
 
@@ -94,15 +88,11 @@ namespace Redacao.WebApp.Controllers
 			try
 			{
 				var retorno = _avaliacaoRedacaoService.AvaliacaoesRedacoesUsuarioAluno(usuarioId);
-				return Ok(retorno);
-			}
-			catch (EntityException ex)
-			{
-				return StatusCode(500, ex.Message);
+				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)
 			{
-				return StatusCode(500, ex.Message);
+				return RetornoAPIException(ex);
 			}
 		}
 
@@ -112,20 +102,15 @@ namespace Redacao.WebApp.Controllers
 		{
 			try
 			{
-				var userId = new Guid(this.User.Claims.ToList().FirstOrDefault(f => f.Type == "userId").Value);
-				var usuario = _usuarioService.DetalhesUsuario(userId);
+				var usuario = _usuarioService.DetalhesUsuario(GetAspNetUserId());
 				model.UsuarioAlunoId = usuario.Data.Id;
-
 				var retorno = _avaliacaoProfessorService.Adicionar(model);
-				return StatusCode((int)retorno.HttpCode, retorno.Message);
-			}
-			catch (EntityException ex)
-			{
-				return StatusCode(500, ex.Message);
+				_log.Adicionar("SUCESSO", "Avaliação do professor feita com sucesso.", "CriarAvaliacaoProfessor", JsonConvert.SerializeObject(model), GetAspNetUserId());
+				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)
 			{
-				return StatusCode(500, ex.Message);
+				return RetornoAPIException(ex);
 			}
 		}
 
@@ -135,19 +120,15 @@ namespace Redacao.WebApp.Controllers
 		{
 			try
 			{
-				var userId = new Guid(this.User.Claims.ToList().FirstOrDefault(f => f.Type == "userId").Value);
-				var usuario = _usuarioService.DetalhesUsuario(userId);
+				var usuario = _usuarioService.DetalhesUsuario(GetAspNetUserId());
 				model.UsuarioAlunoId = usuario.Data.Id;
 				var retorno = _avaliacaoProfessorService.Atualizar(model);
-				return StatusCode((int)retorno.HttpCode, retorno.Message);
-			}
-			catch (EntityException ex)
-			{
-				return StatusCode(500, ex.Message);
+				_log.Adicionar("SUCESSO", "Atualização da avaliação do professor feita com sucesso.", "AtualizarAvaliacaoProfessor", JsonConvert.SerializeObject(model), GetAspNetUserId());
+				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)
 			{
-				return StatusCode(500, ex.Message);
+				return RetornoAPIException(ex);
 			}
 		}
 
@@ -157,15 +138,11 @@ namespace Redacao.WebApp.Controllers
 			try
 			{
 				var retorno = _avaliacaoProfessorService.AvaliacoesPorProfessor(professorId);
-				return Ok(retorno);
-			}
-			catch (EntityException ex)
-			{
-				return StatusCode(500, ex.Message);
+				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)
 			{
-				return StatusCode(500, ex.Message);
+				return RetornoAPIException(ex);
 			}
 		}
 	}

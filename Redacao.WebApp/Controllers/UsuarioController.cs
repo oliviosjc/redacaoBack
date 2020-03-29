@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Redacao.Core.DomainObjects;
 using Redacao.Core.Enums;
 using Redacao.Log.Application.Services.Interface;
@@ -42,7 +43,6 @@ namespace Redacao.WebApp.Controllers
             try
             {
 				var usuario = _usuarioService.DetalhesUsuario(GetAspNetUserId());
-				_log.Adicionar("SUCESSO", "Listagem de detalhes do usuario", "DetalhesUsuario", "", GetAspNetUserId());
 				return RetornoAPI(usuario);
             }
             catch(Exception ex)
@@ -73,7 +73,7 @@ namespace Redacao.WebApp.Controllers
 			try
 			{
 				var retorno = _usuarioService.Atualizar(model);
-				_log.Adicionar("SUCESSO", "Atualização de usuário com sucesso.", "AtualizarUsuario", "", GetAspNetUserId());
+				_log.Adicionar("SUCESSO", "Atualização de usuário com sucesso.", "AtualizarUsuario", JsonConvert.SerializeObject(model), GetAspNetUserId());
 				return RetornoAPI(retorno);
 			}
 			catch(Exception ex)
