@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Redacao.Auth.Application.ViewModel
+namespace Redacao.Usuario.Application.ViewModel
 {
 	public class ResetarSenhaViewModel
 	{

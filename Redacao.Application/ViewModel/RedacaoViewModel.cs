@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -24,8 +25,6 @@ namespace Redacao.Application.ViewModel
 
         public Guid StatusRedacaoId { get; set; }
 
-        public DocumentoViewModel Documento { get; set; }
-
         public Guid DocumentoId { get; set; }
 
         public Guid UsuarioAlunoId { get; set; }
@@ -33,5 +32,7 @@ namespace Redacao.Application.ViewModel
 		public Guid UsuarioProfessorId { get; set; }
 
         public bool Ativo { get; set; }
+
+		//public IFormFile Documento { get; set; }
     }
 }

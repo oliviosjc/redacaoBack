@@ -7,26 +7,19 @@ namespace Redacao.Domain.Entities
 {
     public class Documento : Entity, IAggregateRoot
     {
-        public string File { get; private set; }
+		public Guid AmazonS3Id { get; private set; }
 
-        public string Name { get; private set; }
+        public string Nome { get; private set; }
 
-        public string Extension { get; private set; }
-
-        public string Size { get; private set; }
-
-        public string Folder { get; private set; }
+        public string Extensao { get; private set; }
 
         public Redacao Redacao { get; private set; }
 
-        public Documento(string file, string name, string extension, string size, string folder)
+        public Documento(Guid amazonS3Id, string nome, string extensao)
         {
-            File = file;
-            Name = name;
-            Extension = extension;
-            Size = size;
-            Folder = folder;
-
+			Nome = nome;
+			AmazonS3Id = amazonS3Id;
+			Extensao = extensao;
             Validar();
         }
 
@@ -38,17 +31,7 @@ namespace Redacao.Domain.Entities
 
         public void Validar()
         {
-            Validacoes.ValidarTamanho(File, 50, "O campo file do documento não pode ser maior do que 50 caracteres");
-            Validacoes.ValidarSeVazio(File, "O campo file do documento não pode ser vazio");
-
-            Validacoes.ValidarTamanho(Name, 50, "O campo name do documento não pode ser maior do que 50 caracteres");
-            Validacoes.ValidarSeVazio(Name, "O campo name do documento não pode ser vazio");
-
-            Validacoes.ValidarTamanho(Extension, 10, "O campo extension do documento não pode ser maior do que 10 caracteres");
-            Validacoes.ValidarSeVazio(Extension, "O campo extension do documento não pode ser vazio");
-
-            Validacoes.ValidarTamanho(Folder, 50, "O campo folder do documento não pode ser maior do que 50 caracteres");
-            Validacoes.ValidarSeVazio(Folder, "O campo folder do documento não pode ser vazio");
+            Validacoes.ValidarTamanho(Nome, 100, "O campo folder do documento não pode ser maior do que 50 caracteres");
         }
     }
 }

@@ -14,6 +14,8 @@ namespace Redacao.Avaliacao.Application.ViewModel
 
 		public Guid UsuarioAlunoId { get; set; }
 
+		public Guid UsuarioProfessorId { get; set; }
+
 		public int NotaCriterio01 { get; set; }
 
 		public string AnotacaoCriterio01 { get; set; }

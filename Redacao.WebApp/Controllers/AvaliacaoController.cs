@@ -13,8 +13,6 @@ using Redacao.Avaliacao.Application.ViewModel;
 using Redacao.Core.DomainObjects;
 using Redacao.Core.Models;
 using Redacao.Log.Application.Services.Interface;
-using Redacao.Usuario.Application.Services.Interfaces;
-
 namespace Redacao.WebApp.Controllers
 {
     [Route("api/[controller]")]
@@ -23,15 +21,11 @@ namespace Redacao.WebApp.Controllers
     {
 		private readonly IAvaliacaoProfessorService _avaliacaoProfessorService;
 		private readonly IAvaliacaoRedacaoService _avaliacaoRedacaoService;
-		private readonly IUsuarioService _usuarioService;
-		private readonly IRedacaoLogService _log;
 
-		public AvaliacaoController(IAvaliacaoProfessorService avaliacaoProfessorService, IAvaliacaoRedacaoService avaliacaoRedacaoService, IUsuarioService usuarioService, IRedacaoLogService log)
+		public AvaliacaoController(IAvaliacaoProfessorService avaliacaoProfessorService, IAvaliacaoRedacaoService avaliacaoRedacaoService)
 		{
 			_avaliacaoProfessorService = avaliacaoProfessorService;
 			_avaliacaoRedacaoService = avaliacaoRedacaoService;
-			_usuarioService = usuarioService;
-			_log = log;
 		}
 
 
@@ -41,8 +35,8 @@ namespace Redacao.WebApp.Controllers
 		{
 			try
 			{
+				model.UsuarioProfessorId = GetAspNetUserId();
 				var retorno = _avaliacaoRedacaoService.Adicionar(model);
-				_log.Adicionar("SUCESSO", "Avaliação da Redação feita com sucesso.", "CriarAvaliacaoRedacao", JsonConvert.SerializeObject(model), GetAspNetUserId());
 				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)
@@ -58,7 +52,6 @@ namespace Redacao.WebApp.Controllers
 			try
 			{
 				var retorno = _avaliacaoRedacaoService.Atualizar(model);
-				_log.Adicionar("SUCESSO", "Atualização de avaliação da Redação feita com sucesso.", "AtualizarAvaliacaoRedacao", JsonConvert.SerializeObject(model), GetAspNetUserId());
 				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)
@@ -83,6 +76,7 @@ namespace Redacao.WebApp.Controllers
 		}
 
 		[HttpGet, Route("aluno/{usuarioId}")]
+		[Authorize(Roles = "ADMIN")]
 		public ActionResult AvaliacoesRedacoesUsuarioAluno(Guid usuarioId)
 		{
 			try
@@ -102,10 +96,7 @@ namespace Redacao.WebApp.Controllers
 		{
 			try
 			{
-				var usuario = _usuarioService.DetalhesUsuario(GetAspNetUserId());
-				model.UsuarioAlunoId = usuario.Data.Id;
 				var retorno = _avaliacaoProfessorService.Adicionar(model);
-				_log.Adicionar("SUCESSO", "Avaliação do professor feita com sucesso.", "CriarAvaliacaoProfessor", JsonConvert.SerializeObject(model), GetAspNetUserId());
 				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)
@@ -120,10 +111,7 @@ namespace Redacao.WebApp.Controllers
 		{
 			try
 			{
-				var usuario = _usuarioService.DetalhesUsuario(GetAspNetUserId());
-				model.UsuarioAlunoId = usuario.Data.Id;
 				var retorno = _avaliacaoProfessorService.Atualizar(model);
-				_log.Adicionar("SUCESSO", "Atualização da avaliação do professor feita com sucesso.", "AtualizarAvaliacaoProfessor", JsonConvert.SerializeObject(model), GetAspNetUserId());
 				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)

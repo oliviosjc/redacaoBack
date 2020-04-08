@@ -10,7 +10,6 @@ using Redacao.Application.Services.Interfaces;
 using Redacao.Application.ViewModel;
 using Redacao.Core.DomainObjects;
 using Redacao.Log.Application.Services.Interface;
-using Redacao.Usuario.Application.Services.Interfaces;
 
 namespace Redacao.WebApp.Controllers
 {
@@ -20,14 +19,10 @@ namespace Redacao.WebApp.Controllers
 	{
 
 		private readonly IRedacaoService _redacaoService;
-		private readonly IUsuarioService _usuarioService;
-		private readonly IRedacaoLogService _log;
 
-		public RedacaoController(IRedacaoService redacaoService, IUsuarioService usuarioService, IRedacaoLogService log)
+		public RedacaoController(IRedacaoService redacaoService)
 		{
 			_redacaoService = redacaoService;
-			_usuarioService = usuarioService;
-			_log = log;
 		}
 
 		[HttpGet, Route("minhas-redacoes")]
@@ -36,10 +31,8 @@ namespace Redacao.WebApp.Controllers
 		{
 			try
 			{
-				var usuario = _usuarioService.DetalhesUsuario(GetAspNetUserId());
-				var redacoes = _redacaoService.RedacoesPorUsuario(usuario.Data.Id);
+				var redacoes = _redacaoService.RedacoesPorUsuario(GetAspNetUserId());
 				return RetornoAPI(redacoes);
-
 			}
 			catch (Exception ex)
 			{
@@ -68,10 +61,8 @@ namespace Redacao.WebApp.Controllers
 		{
 			try
 			{
-				var usuario = _usuarioService.DetalhesUsuario(GetAspNetUserId());
-				model.UsuarioAlunoId = usuario.Data.Id;
+				model.UsuarioAlunoId = GetAspNetUserId();
 				var retorno = _redacaoService.AdicionarRedacao(model);
-				_log.Adicionar("SUCESSO", "Redação cadastrada com sucesso.", "AdicionarRedacao", JsonConvert.SerializeObject(model), GetAspNetUserId());
 				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)
@@ -80,14 +71,13 @@ namespace Redacao.WebApp.Controllers
 			}
 		}
 
-		[HttpPut, Route("editarRedacao")]
+		[HttpPut]
 		[Authorize(Roles = "ALUNO, ADMIN")]
 		public ActionResult AtualizarRedacao(RedacaoViewModel model)
 		{
 			try
 			{
 				var retorno = _redacaoService.AtualizarRedacao(model);
-				_log.Adicionar("SUCESSO", "Redação editada com sucesso com sucesso.", "AdicionarRedacao", JsonConvert.SerializeObject(model), GetAspNetUserId());
 				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)
@@ -96,15 +86,13 @@ namespace Redacao.WebApp.Controllers
 			}
 		}
 
-		[HttpPost, Route("atualizar-redacao-professor/{redacaoId}")]
-		[Authorize(Roles = "ALUNO, ADMIN")]
+		[HttpPut, Route("atualizar-professor/{redacaoId}")]
+		[Authorize(Roles = "ADMIN")]
 		public ActionResult AtualizarRedacaoProfessor(Guid redacaoId)
 		{
 			try
 			{
-				var usuario = _usuarioService.DetalhesUsuario(GetAspNetUserId());
-				var retorno = _redacaoService.AtualizarRedacaoProfessor(redacaoId, usuario.Data.Id);
-				_log.Adicionar("SUCESSO", "Professor vinculado a redação.", "AtualizarRedacaoProfessor", "", GetAspNetUserId());
+				var retorno = _redacaoService.VincularRedacaoProfessor(redacaoId, GetAspNetUserId());
 				return RetornoAPI(retorno);
 			}
 			catch (Exception ex)

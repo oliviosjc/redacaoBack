@@ -8,16 +8,16 @@ namespace Redacao.Log.Domain.Entities
 	{
 		public Guid Id { get; set; }
 
-		public string LogLevel { get; set; }
+		public Int32 Level { get; set; }
 
-		public string Action { get; set; }
+		public string Metodo { get; set; }
 
-		public string Message { get; set; }
+		public string Mensagem { get; set; }
 
 		public string Json { get; set; }
 
 		public DateTime? CreatedTime { get; set; }
 
-		public Guid AspNetUserId { get; set; }
+		public Guid? UsuarioId { get; set; }
 	}
 }

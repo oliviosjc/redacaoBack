@@ -24,23 +24,11 @@ namespace Redacao.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Extension")
-                        .IsRequired()
-                        .HasMaxLength(10);
+                    b.Property<Guid>("AmazonS3Id");
 
-                    b.Property<string>("File")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    b.Property<string>("Extensao");
 
-                    b.Property<string>("Folder")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Size");
+                    b.Property<string>("Nome");
 
                     b.HasKey("Id");
 
@@ -62,6 +50,8 @@ namespace Redacao.Data.Migrations
                     b.Property<Guid>("StatusRedacaoId");
 
                     b.Property<Guid>("TemaRedacaoId");
+
+                    b.Property<string>("Teste");
 
                     b.Property<Guid>("TipoRedacaoId");
 

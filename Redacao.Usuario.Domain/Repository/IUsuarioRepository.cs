@@ -8,15 +8,15 @@ namespace Redacao.Usuario.Domain.Repository
 {
     public interface IUsuarioRepository
     {
-		void Registrar(Domain.Entities.Usuario usuario);
+		void Registrar();
 
-        void Atualizar(Domain.Entities.Usuario usuario);
+        void Atualizar();
 
-        Domain.Entities.Usuario DetalhesUsuario(Guid aspNetUserId);
+		void DetalhesUsuario();
 
-		Domain.Entities.Usuario DetalhesUsuarioById(Guid usuarioId);
+		void DetalhesUsuarioById();
 
-        ICollection<Domain.Entities.Usuario> ListarUsuarios();
+        void ListarUsuarios();
 
         void DesativarUsuario(Guid usuarioId);
 

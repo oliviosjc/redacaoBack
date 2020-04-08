@@ -16,6 +16,8 @@ namespace Redacao.Avaliacao.Domain.Entities
 
 		public Guid UsuarioAlunoId { get; private set; }
 
+		public Guid UsuarioProfessorId { get; private set; }
+
 		public int NotaCriterio01 { get; private set; }
 
 		public string AnotacaoCriterio01 { get; private set; }
@@ -34,10 +36,11 @@ namespace Redacao.Avaliacao.Domain.Entities
 
 		public string Feedback { get; private set; }
 
-		public AvaliacaoRedacao(Guid redacaoId, Guid usuarioAlunoId, int notaCriterio01, string anotacaoCriterio01, int notaCriterio02, string anotacaoCriterio02, int notaCriterio03, string anotacaoCriterio03, string pontosFortes, string pontosFracos, string feedback)
+		public AvaliacaoRedacao(Guid redacaoId, Guid usuarioAlunoId, Guid usuarioProfessorId,int notaCriterio01, string anotacaoCriterio01, int notaCriterio02, string anotacaoCriterio02, int notaCriterio03, string anotacaoCriterio03, string pontosFortes, string pontosFracos, string feedback)
 		{
 			RedacaoId = redacaoId;
 			UsuarioAlunoId = usuarioAlunoId;
+			UsuarioProfessorId = usuarioProfessorId;
 			NotaCriterio01 = notaCriterio01;
 			AnotacaoCriterio01 = anotacaoCriterio01;
 			NotaCriterio02 = notaCriterio02;
@@ -55,6 +58,7 @@ namespace Redacao.Avaliacao.Domain.Entities
 		{
 			Validacoes.ValidarSeNulo(RedacaoId, "O campo redacaoId não pode ser null");
 			Validacoes.ValidarSeNulo(UsuarioAlunoId, "O campo usuarioAlunoId não pode ser null");
+			Validacoes.ValidarSeNulo(UsuarioProfessorId, "O campo usuarioProfessorId não pode ser null");
 			Validacoes.ValidarSeNulo(NotaCriterio01, "O campo notaCriterio01 não pode ser null");
 			Validacoes.ValidarSeNulo(NotaCriterio02, "O campo notaCriterio02 não pode ser null");
 			Validacoes.ValidarSeNulo(NotaCriterio03, "O campo notaCriterio03 não pode ser null");

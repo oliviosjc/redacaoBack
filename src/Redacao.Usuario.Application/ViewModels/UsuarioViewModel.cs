@@ -35,6 +35,8 @@ namespace Redacao.Usuario.Application.ViewModels
 
         public ICollection<AtividadesViewModel> Atividades { get; set; }
 
+		public bool Ativo { get; set; }
+
 		public Guid AspNetUserId { get; set; }
     }
 }

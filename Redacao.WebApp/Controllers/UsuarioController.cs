@@ -16,7 +16,7 @@ using Redacao.Core.DomainObjects;
 using Redacao.Core.Enums;
 using Redacao.Log.Application.Services.Interface;
 using Redacao.Usuario.Application.Services.Interfaces;
-using Redacao.Usuario.Application.ViewModels;
+using Redacao.Usuario.Application.ViewModel;
 using Redacao.WebApp.Auth;
 
 namespace Redacao.WebApp.Controllers
@@ -26,14 +26,10 @@ namespace Redacao.WebApp.Controllers
     public class UsuarioController : BaseController
     {
 
-        private readonly IUsuarioService _usuarioService;
-		private readonly UserManager<IdentityUser> _userManager;
-		private readonly IRedacaoLogService _log;
-
-		public UsuarioController(IUsuarioService usuarioService, UserManager<IdentityUser> userManager, IRedacaoLogService log)
+		private readonly IUsuarioService _service;
+		public UsuarioController(IUsuarioService service)
         {
-            _usuarioService = usuarioService;
-			_log = log;
+			_service = service;
         }
 
         [HttpGet]
@@ -42,10 +38,10 @@ namespace Redacao.WebApp.Controllers
         {
             try
             {
-				var usuario = _usuarioService.DetalhesUsuario(GetAspNetUserId());
-				return RetornoAPI(usuario);
-            }
-            catch(Exception ex)
+				var retorno = _service.DetalhesUsuario(GetAspNetUserId());
+				return RetornoAPI(retorno.Result);
+			}
+			catch (Exception ex)
             {
 				return RetornoAPIException(ex);
 			}
@@ -57,8 +53,8 @@ namespace Redacao.WebApp.Controllers
         {
             try
             {
-				var usuarios = _usuarioService.ListarUsuarios();
-				return RetornoAPI(usuarios);
+				var retorno = _service.ListarUsuarios();
+				return RetornoAPI(retorno.Result);
 			}
 			catch (Exception ex)
             {
@@ -68,13 +64,12 @@ namespace Redacao.WebApp.Controllers
 
 		[HttpPut]
 		[Authorize(Roles = "ADMIN")]
-		public ActionResult AtualizarUsuario(UsuarioViewModel model)
+		public ActionResult AtualizarUsuario(UsuarioViewModel usuario)
 		{
 			try
 			{
-				var retorno = _usuarioService.Atualizar(model);
-				_log.Adicionar("SUCESSO", "Atualização de usuário com sucesso.", "AtualizarUsuario", JsonConvert.SerializeObject(model), GetAspNetUserId());
-				return RetornoAPI(retorno);
+				var retorno = _service.AtualizarUsuario(usuario);
+				return RetornoAPI(retorno.Result);
 			}
 			catch(Exception ex)
 			{
@@ -84,14 +79,13 @@ namespace Redacao.WebApp.Controllers
 
 		[HttpGet, Route("dashboard")]
 		[Authorize(Roles = "ALUNO")]
-		public ActionResult Dashboard(Guid usuarioId)
+		public ActionResult Dashboard()
 		{
 			try
 			{
-				var retorno = _usuarioService.Dashboard(usuarioId);
-				return Ok(retorno);
+				return Ok();
 			}
-			catch(EntityException ex)
+			catch (EntityException ex)
 			{
 				return BadRequest(ex.Message);
 			}

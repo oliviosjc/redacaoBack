@@ -11,6 +11,6 @@ namespace Redacao.Usuario.Application.Services.Interfaces
 
 		void Atualizar(UsuarioCreditoViewModel usuarioCredito);
 
-		UsuarioCreditoViewModel DetalheUsuario(Guid usuarioId);
+		void DetalheUsuario(Guid usuarioId);
 	}
 }

@@ -20,6 +20,6 @@ namespace Redacao.Application.Services.Interfaces
 
 		ReturnRequestViewModel ObterTemasRedacao();
 
-		ReturnRequestViewModel AtualizarRedacaoProfessor(Guid redacaoId, Guid professorId);
+		ReturnRequestViewModel VincularRedacaoProfessor(Guid redacaoId, Guid professorId);
     }
 }

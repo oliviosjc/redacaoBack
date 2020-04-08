@@ -33,13 +33,12 @@ namespace Redacao.Domain.Entities
 
 		public string Teste { get; set; }
 
-        public Redacao(string descricao, Guid tipoRedacaoId, Guid temaRedacaoId, Guid statusRedacaoId, Guid documentoId, Guid usuarioAlunoId, bool ativo)
+        public Redacao(string descricao, Guid tipoRedacaoId, Guid temaRedacaoId, Guid statusRedacaoId, Guid usuarioAlunoId, bool ativo)
         {
             Descricao = descricao;
             TipoRedacaoId = tipoRedacaoId;
             TemaRedacaoId = temaRedacaoId;
             StatusRedacaoId = statusRedacaoId;
-            DocumentoId = documentoId;
             UsuarioAlunoId = usuarioAlunoId;
             Ativo = ativo;
 

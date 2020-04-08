@@ -1,4 +1,5 @@
-﻿using Redacao.Log.Application.Services.Interface;
+﻿using Redacao.Core.Enums;
+using Redacao.Log.Application.Services.Interface;
 using Redacao.Log.Domain.Entities;
 using Redacao.Log.Domain.Repository;
 using System;
@@ -15,17 +16,17 @@ namespace Redacao.Log.Application.Services
 			_repository = repository;
 		}
 
-		public void Adicionar(string logLevel, string message, string action ,string json, Guid aspNetUserId)
+		public void Adicionar(LogLevelEnum level, string metodo, string mensagem, string json, Guid? usuarioId)
 		{
 			var redacaoLog = new RedacaoLog
 			{
-				Id = new Guid(),
-				LogLevel = logLevel,
-				Message = message,
-				Action = action,
-				Json = json,
+				Id = Guid.NewGuid(),
+				Level = (int)level,
 				CreatedTime = DateTime.Now,
-				AspNetUserId = aspNetUserId
+				Mensagem = mensagem,
+				Metodo = metodo,
+				Json = json,
+				UsuarioId = usuarioId
 			};
 
 			_repository.Adicionar(redacaoLog);
