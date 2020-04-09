@@ -15,7 +15,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Redacao.Domain\Redacao.Domain.csproj" />
-    <ProjectReference Include="..\Redacao.Log.Application\Redacao.Log.Application.csproj" />
-    <ProjectReference Include="..\src\Redacao.Auth.Domain\Redacao.Usuario.Domain.csproj" />
+    <ProjectReference Include="..\..\Redacao.Log.Application\Redacao.Log.Application.csproj" />
+    <ProjectReference Include="..\..\src\Redacao.Auth.Domain\Redacao.Usuario.Domain.csproj" />
+    <ProjectReference Include="..\Redacao.Domain\Redacao.Domain.csproj" />
   </ItemGroup>
 </Project>

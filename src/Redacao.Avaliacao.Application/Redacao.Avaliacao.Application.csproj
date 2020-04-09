@@ -9,7 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Redacao.Application\Redacao.Application.csproj" />
+    <ProjectReference Include="..\Redacao.Application\Redacao.Application.csproj" />
+    <ProjectReference Include="..\Redacao.Application\Redacao.Application.csproj" />
     <ProjectReference Include="..\Redacao.Avaliacao.Domain\Redacao.Avaliacao.Domain.csproj" />
   </ItemGroup>
 

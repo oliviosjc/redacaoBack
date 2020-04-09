@@ -15,11 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redacao.WebApp", "Redacao.W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redacao.Core", "Redacao.Core\Redacao.Core.csproj", "{C2985D98-C413-4990-A0EB-FE1D5D32A29C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redacao.Application", "Redacao.Application\Redacao.Application.csproj", "{A50001CE-1AA3-4CD7-ABC2-7578EC7F42D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redacao.Application", "src\Redacao.Application\Redacao.Application.csproj", "{A50001CE-1AA3-4CD7-ABC2-7578EC7F42D9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redacao.Domain", "Redacao.Domain\Redacao.Domain.csproj", "{44F1C0AC-EDA5-4F54-B77C-FCA31FAFB199}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redacao.Domain", "src\Redacao.Domain\Redacao.Domain.csproj", "{44F1C0AC-EDA5-4F54-B77C-FCA31FAFB199}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redacao.Data", "RedacaoData\Redacao.Data.csproj", "{AF89CB74-79F4-4727-A3A9-EEA34653E5F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redacao.Data", "src\RedacaoData\Redacao.Data.csproj", "{AF89CB74-79F4-4727-A3A9-EEA34653E5F9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Avaliacao", "Avaliacao", "{E1AC649D-AFFD-49EB-A535-1A48A42D79EE}"
 EndProject
