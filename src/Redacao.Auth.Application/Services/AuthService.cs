@@ -152,7 +152,7 @@ namespace Redacao.Usuario.Application.Services
 				_log.Adicionar(LogLevelEnum.SUCCESS, nameof(RegistrarUsuario), retorno.Message, null, _usuarioLogadoId);
 				return retorno;
 			}
-			catch(Exception)
+			catch(Exception ex)
 			{
 				retorno.Message = "Ocorreu um erro interno ao registrar o usuário.";
 				retorno.HttpCode = HttpStatusCode.InternalServerError;
